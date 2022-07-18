@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react';
-import Head from '../components/head';
+import { Header } from '../components/header';
 // @ts-ignore
 import GasketEmblem from '@gasket/assets/react/gasket-emblem';
 
@@ -8,7 +8,7 @@ const logoStyle = { width: '250px', height: '250px' };
 
 export const IndexPage = () => (
     <div>
-        <Head title='Home'/>
+        <Header />
         <GasketEmblem style={ logoStyle }/>
         <h1>Welcome to Gasket!</h1>
         <p>To get started, edit <code>pages/index.js</code> and save to reload.</p>

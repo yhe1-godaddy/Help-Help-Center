@@ -16,18 +16,22 @@
     "@gasket/redux": "^6.24.0",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
+    "@ux/select-input": "^2200.0.20",
     "express": "^4.16.3",
+    "jss": "^10.9.0",
     "lodash.merge": "^4.6.0",
     "next": "^12.0.8",
     "next-redux-wrapper": "^7.0.5",
     "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-jss": "^10.9.0",
     "react-redux": "^7.1.0",
     "redux": "^4.0.5"
   },
   "devDependencies": {
     "typescript": "^4.7.4",
+    "url-loader": "^4.1.1",
     "webpack": "^5.21.2"
   }
 }

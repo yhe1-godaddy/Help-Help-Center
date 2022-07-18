@@ -1,0 +1,33 @@
+{
+  "name": "help-help-center",
+  "version": "0.0.0",
+  "description": "help-help-center",
+  "scripts": {
+    "build": "gasket build",
+    "start": "gasket start",
+    "local": "gasket local"
+  },
+  "dependencies": {
+    "@gasket/assets": "^6.24.0",
+    "@gasket/cli": "^6.27.1",
+    "@gasket/log": "^6.24.0",
+    "@gasket/nextjs": "^6.24.0",
+    "@gasket/preset-nextjs": "^6.28.0",
+    "@gasket/redux": "^6.24.0",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "express": "^4.16.3",
+    "lodash.merge": "^4.6.0",
+    "next": "^12.0.8",
+    "next-redux-wrapper": "^7.0.5",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.5"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.4",
+    "webpack": "^5.21.2"
+  }
+}

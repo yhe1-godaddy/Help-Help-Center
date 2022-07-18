@@ -1,0 +1,44 @@
+import React from 'react';
+import { mount, ReactWrapper } from 'enzyme';
+import { TestApp } from '../test-utils/TestApp';
+import { NextRouter } from 'next/dist/next-server/lib/router/router';
+
+describe('mock-router', () => {
+  const websiteId = 'aaa';
+  let wrapper: ReactWrapper;
+  let router: Partial<NextRouter>;
+
+  beforeEach(() => {
+    router = {
+      push: jest.fn(),
+      query: {
+        websiteId: websiteId
+      }
+    };
+
+    wrapper = mount(
+      <TestApp router={router}>
+        <div>...Your Component Here with button or routing event...</div>
+      </TestApp>
+    );
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+    jest.clearAllMocks();
+  });
+
+  it('component mounts', () => {
+    expect(wrapper.length).toEqual(1);
+  });
+
+  it('should route to content composer on click', () => {
+    const button = wrapper.find(`[data-aid='event-tag-id']`).at(0);
+    button.simulate('click');
+
+    expect(router.push).toHaveBeenCalled();
+    expect(router.push).toHaveBeenCalledWith(`/new-route-path`);
+  });
+
+
+});

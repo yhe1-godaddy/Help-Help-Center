@@ -1,0 +1,6 @@
+{
+  "delete": true,
+  "singleQuotes": true,
+  "location": "replace",
+  "exclude": ["types/@types/"]
+}

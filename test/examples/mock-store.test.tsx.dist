@@ -1,0 +1,33 @@
+import React from 'react';
+import { mount, ReactWrapper } from 'enzyme';
+import { Header } from '../../src/components/common';
+import { TestApp } from '../test-utils/TestApp';
+import { Store } from 'redux';
+import { websites as websitesFeature } from '../../src/redux/features';
+import { makeTestStore } from '../test-utils/makeTestStore';
+
+describe('mock-store', () => {
+  let wrapper: ReactWrapper;
+  let store: Store;
+
+  beforeEach(() => {
+    store = makeTestStore({
+      reducers: { websites: websitesFeature.reducer }
+    });
+
+    wrapper = mount(
+      <TestApp store={store}>
+        <div>...Your Component Here...</div>
+      </TestApp>
+    );
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+    jest.clearAllMocks();
+  });
+
+  it('component mounts', () => {
+    expect(wrapper.length).toEqual(1);
+  });
+});

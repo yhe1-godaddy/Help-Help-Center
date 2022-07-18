@@ -1,0 +1,79 @@
+#!{ shared: multi-dc, dynamic: webapp/node }
+
+# Temporary until fully ready to deploy
+# Temporary until fully ready to deploy
+manual_prod: true
+# Temporary until fully ready to deploy
+# Temporary until fully ready to deploy
+
+appname: '{{context.appname}}'
+discovery: true
+ssl: true
+slack: '{{context.slack}}'
+start_command: './node_modules/.bin/gasket start --no-record'
+public: true
+publish_assets: true
+supports_reseller: true
+npmci_enabled: true
+node_version: 14.18.1
+npm_version: 6.10.3
+
+advanced_assets:
+  - virtual_path: _next/
+    source:
+      - dist/.next/**/*
+  - virtual_path: _locales/
+    source:
+      - dist/locales/**/*
+
+newrelic:
+  credentials: newrelic-prod
+
+hosts:
+  - '{{context.host}}'
+
+resources:
+  limits:
+    cpu: 1
+    memory: 1Gi
+  requests:
+    cpu: 1
+    memory: 1Gi
+
+dev:
+  certificates:
+    - client: '{{context.host}}.authclient.int.dev-godaddy.com'
+      naming: 'certs/{name_ext}'
+      bundle_intermediate: true
+  clusters:
+    - dev-wsb/pnc-p3
+  tasks:
+    - task: newrelic::deployment
+      application_name: '{{context.appname}}-development'
+
+test:
+  certificates:
+    - client: '{{context.host}}.authclient.int.test-godaddy.com'
+      naming: 'certs/{name_ext}'
+      bundle_intermediate: true
+  clusters:
+    - test-wsb/pnc-p3
+  tasks:
+    - task: newrelic::deployment
+      application_name: '{{context.appname}}-test'
+
+prod:
+  certificates:
+    - client: '{{context.host}}.authclient.int.godaddy.com'
+      naming: 'certs/{name_ext}'
+      bundle_intermediate: true
+  clusters:
+    - prod-wsb/pnc-p3
+    - prod-wsb/pnc-a2
+  autoscale:
+    maximum_replicas: 10
+    minimum_replicas: 3
+    cpu: 80
+  tasks:
+    - task: newrelic::deployment
+      application_name: '{{context.appname}}-production'

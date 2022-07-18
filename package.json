@@ -1,37 +1,229 @@
 {
-  "name": "help-help-center",
-  "version": "0.0.0",
-  "description": "help-help-center",
+  "name": "gasket-webapp-typescript-boilerplate",
+  "license": "Apache-2.0",
+  "version": "0.0.1",
+  "description": "gasket-webapp-typescript-boilerplate",
   "scripts": {
-    "build": "gasket build",
+    "local": "gasket local",
+    "local:debug": "DEBUG=gasket:engine gasket local",
+    "local:test": "gasket local --env=local:test",
+    "local:prod": "gasket local --env=local:prod",
+    "analyze": "gasket analyze",
+    "build": "npm run build:app",
+    "build:app": "gasket build",
+    "build:types": "tsc --build tsconfig.tsc.json",
     "start": "gasket start",
-    "local": "gasket local"
+    "cicd-prepackage": "BABEL_CACHE_PATH=./tmp/babel-cache.json npm run build -- --env=production",
+    "lint": "eslint --quiet --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "npm run lint -- --fix",
+    "typecheck": "tsc --noEmit",
+    "pretest": "npm run lint",
+    "test": "npm run test:runner",
+    "test:runner": "TZ=UTC jest",
+    "cicd-test": "npm run test:coverage",
+    "test:watch": "npm run test:runner -- --watchAll",
+    "test:coverage": "npm run test:runner -- --coverage",
+    "test:cicd:docker": "docker build -t cicd-test . && docker run cicd-test ./node_modules/.bin/gasket start",
+    "test:cicd": "npm run test && npm run cicd-prepackage && npm run test:cicd:docker",
+    "barrels": "barrelsby --local -c barrelsby.config.json -d ./src && barrelsby -c barrelsby.config.json -d ./test"
   },
   "dependencies": {
-    "@gasket/assets": "^6.24.0",
-    "@gasket/cli": "^6.27.1",
-    "@gasket/log": "^6.24.0",
-    "@gasket/nextjs": "^6.24.0",
-    "@gasket/preset-nextjs": "^6.28.0",
-    "@gasket/redux": "^6.24.0",
-    "@types/react": "^18.0.15",
-    "@types/react-dom": "^18.0.6",
-    "@ux/select-input": "^2200.0.20",
-    "express": "^4.16.3",
-    "jss": "^10.9.0",
-    "lodash.merge": "^4.6.0",
-    "next": "^12.0.8",
+    "@babel/core": "^7.12.9",
+    "@babel/register": "^7.12.10",
+    "@gasket/cli": "^6.17.0",
+    "@gasket/fetch": "^6.17.0",
+    "@gasket/log": "^6.17.1",
+    "@gasket/plugin-intl": "^6.0.10",
+    "@gasket/plugin-jest": "^6.0.0",
+    "@gasket/react-intl": "^6.17.1",
+    "@gasket/redux": "^6.17.1",
+    "@godaddy/gasket-auth": "^2.5.0",
+    "@godaddy/gasket-cookies": "^2.2.0",
+    "@godaddy/gasket-next": "^2.11.0",
+    "@godaddy/gasket-preset-webapp": "^2.14.0",
+    "@godaddy/user-analytics-js": "^2.0.0",
+    "@godaddy/user-analytics-js-register-origin": "^0.4.1",
+    "@reduxjs/toolkit": "^1.5.0",
+    "@ux/tag": "^2200.0.12",
+    "@ux/uxcore2": "^2200.0.0",
+    "@wsb/config-api-client": "^4.1.0",
+    "@wsb/core-config-rules": "^1.4.0",
+    "@wsb/gasket-complex-next-routes-react": "^2.0.3",
+    "@wsb/gasket-plugin-complex-next-routes": "^2.0.3",
+    "@wsb/gasket-plugin-shared-header": "^3.0.0",
+    "@wsb/gasket-plugin-thunder-auth": "^1.3.1",
+    "@wsb/gasket-thunder-auth-react": "^1.3.1",
+    "abort-controller": "^3.0.0",
+    "abortcontroller-polyfill": "^1.7.1",
+    "babel-plugin-inline-react-svg": "^1.1.2",
+    "classnames": "^2.2.6",
+    "core-js": "^3.8.1",
+    "date-fns": "^2.16.1",
+    "express": "^4.18.1",
+    "file-loader": "^6.2.0",
+    "glamor": "^2.20.40",
+    "ioredis": "^4.19.2",
+    "lodash.merge": "^4.6.2",
+    "newrelic": "^7.0.2",
+    "next": "^12.1.0",
     "next-redux-wrapper": "^7.0.5",
-    "prop-types": "^15.7.2",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-jss": "^10.9.0",
-    "react-redux": "^7.1.0",
-    "redux": "^4.0.5"
+    "node-cache": "^4.2.0",
+    "prop-types": "^15.6.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-intl": "^5.24.4",
+    "react-jss": "^10.5.1",
+    "react-redux": "^7.2.2",
+    "react-transition-group": "^4.4.1",
+    "redux": "^4.0.5",
+    "redux-saga": "^1.1.3",
+    "redux-thunk": "^2.3.0",
+    "reduxful": "^1.4.0",
+    "regenerator-runtime": "^0.13.7",
+    "reselect": "^4.0.0",
+    "url-loader": "^4.1.1",
+    "winston": "^3.3.3",
+    "winston3-logstash-transport": "^1.0.1-c",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
-    "typescript": "^4.7.4",
-    "url-loader": "^4.1.1",
+    "@gasket/plugin-jest": "^6.17.1",
+    "@godaddy/eslint-plugin-react-intl": "^1.1.1",
+    "@testing-library/dom": "^7.22.1",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^10.4.5",
+    "@testing-library/user-event": "^12.6.0",
+    "@types/classnames": "^2.2.11",
+    "@types/enzyme": "^3.10.8",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/expect": "^24.3.0",
+    "@types/jest": "^26.0.22",
+    "@types/lodash.merge": "^4.6.7",
+    "@types/node": "^14.14.20",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "@types/react-redux": "^7.1.14",
+    "@types/react-transition-group": "^4.4.0",
+    "@types/redux-mock-store": "^1.0.2",
+    "@types/webpack": "^4.41.25",
+    "@typescript-eslint/eslint-plugin": "^4.11.1",
+    "@typescript-eslint/parser": "^4.11.1",
+    "@ux/webpack-config": "^2200.0.0",
+    "@wojtekmaj/enzyme-adapter-react-17": "^0.6.6",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.3",
+    "babel-loader": "^8.2.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "barrelsby": "^2.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-to-json": "^3.6.1",
+    "eslint": "^8.6.0",
+    "eslint-config-godaddy-react": "^8.0.0",
+    "eslint-config-next": "^12.1.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jest": "^24.1.3",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "factory.ts": "^0.5.1",
+    "husky": "^4.3.8",
+    "jest": "^25.5.4",
+    "lint-staged": "^10.5.3",
+    "postcss": "^8.4.4",
+    "prettier": "2.2.1",
+    "redux-mock-store": "^1.5.4",
+    "redux-saga-test-plan": "^4.0.1",
+    "sass": "^1.49.7",
+    "sass-loader": "^8.0.2",
+    "setup-env": "^1.2.4",
+    "stylelint": "^12.0.1",
+    "stylelint-config-godaddy": "^0.4.0",
+    "ts-jest": "^25.5.1",
+    "typescript": "^3.9.7",
     "webpack": "^5.21.2"
+  },
+  "files": [
+    "/dist"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
+    "*.{js,jsx,ts,tsx,css,md,json}": "prettier --write"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "settings": {
+      "localeFiles": [
+        "public/locales/en-US.json"
+      ]
+    },
+    "env": {},
+    "root": true,
+    "ignorePatterns": [
+      "/dist/**/*",
+      "/coverage/**/*"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.test.js"
+        ],
+        "rules": {
+          "react/react-in-jsx-scope": "off"
+        }
+      }
+    ],
+    "plugins": [
+      "react-hooks",
+      "@typescript-eslint",
+      "import"
+    ],
+    "extends": [
+      "godaddy-react",
+      "plugin:@godaddy/react-intl/recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "import/no-default-export": 2,
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "generator-star-spacing": 0,
+      "no-use-before-define": 0,
+      "spaced-comment": 0,
+      "react/jsx-curly-spacing": 0,
+      "react-hooks/rules-of-hooks": "warn",
+      "react-hooks/exhaustive-deps": "warn",
+      "require-atomic-updates": "off",
+      "jsx-a11y/anchor-is-valid": [
+        "error",
+        {
+          "components": [
+            "Link"
+          ],
+          "specialLink": [
+            "route",
+            "as"
+          ],
+          "aspects": [
+            "invalidHref",
+            "preferButton"
+          ]
+        }
+      ],
+      "jsx-a11y/label-has-associated-control": [
+        "error",
+        {
+          "controlComponents": [
+            "DatePicker",
+            "TimePicker"
+          ]
+        }
+      ]
+    }
   }
 }
